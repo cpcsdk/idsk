@@ -1,0 +1,7 @@
+language: cpp
+addons:
+    apt:
+        packages:
+            - cmake
+script:
+    cmake . && make
