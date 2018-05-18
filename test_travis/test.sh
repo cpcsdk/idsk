@@ -33,6 +33,10 @@ function test_ascii {
 
 	echo " > Check file content"
 	test "$(cat HELLO.ASC)" = "HELLO WORLD"
+
+	echo "> Get content with iDSK"
+	../iDSK test.dsk -a HELLO.ASC 2>/dev/null > HELLO.ASC2
+	test "$(cat HELLO.ASC)" = "$(cat HELLO.ASC2)"
 }
 
 
