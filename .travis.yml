@@ -4,4 +4,5 @@ addons:
         packages:
             - cmake
 script:
-    cmake . && make
+    - cmake . && make
+    - cd test_travis/ && ./test.sh
