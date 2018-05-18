@@ -11,4 +11,5 @@ add_executable(iDSK
 	src/Main.cpp
 	src/Outils.cpp
 	src/ViewFile.cpp
+	src/Ascii.cpp
 )
