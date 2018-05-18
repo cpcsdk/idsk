@@ -4,6 +4,7 @@
 string ViewDams();
 string ViewLine();
 string ViewDesass();
-string ViewBasic( bool AddCrLf );
-	
+string ViewAscii();
+string ViewBasic(bool AddCrLf);
+
 #endif
