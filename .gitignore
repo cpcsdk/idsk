@@ -5,3 +5,4 @@ iDSK.*
 Makefile
 *.swp
 *.dsk
+.vscode/

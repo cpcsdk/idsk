@@ -42,7 +42,7 @@ bool CheckAmsdos( unsigned char * Buf ) {
 
 
 //
-// Crée une en-tête AMSDOS par défaut
+// CrÔøΩe une en-tÔøΩte AMSDOS par dÔøΩfaut
 //
 StAmsdos * CreeEnteteAmsdos( char * NomFic, unsigned short Longueur ) {
     static char NomReel[ 256 ];
@@ -75,7 +75,7 @@ StAmsdos * CreeEnteteAmsdos( char * NomFic, unsigned short Longueur ) {
             Nom[ i + 8 ] = ( char )toupper( p[ i ] );
 	
     memcpy( Entete.FileName, Nom, 11 );
-    Entete.Length = 0; 	//Non renseignÈ par AMSDos !!
+    Entete.Length = 0; 	//Non renseignÔøΩ par AMSDos !!
     Entete.RealLength = Entete.LogicalLength = Longueur;
     Entete.FileType = 2; //Fichier binaire
 
@@ -171,7 +171,7 @@ int DSK::RechercheBlocLibre( int MaxBloc ) {
 
 
 //
-// Recherche une entrée de répertoire libre
+// Recherche une entrÔøΩe de rÔøΩpertoire libre
 //
 int DSK::RechercheDirLibre( void ) {
     for ( int i = 0; i < 64; i++ ) {
@@ -184,7 +184,7 @@ int DSK::RechercheDirLibre( void ) {
 
 
 //
-// Retourne les données "brutes" de l'image disquette
+// Retourne les donnÔøΩes "brutes" de l'image disquette
 //
 unsigned char * DSK::GetRawData( int Pos ) {
     return( &ImgDsk[ Pos ] );
@@ -192,7 +192,7 @@ unsigned char * DSK::GetRawData( int Pos ) {
 
 
 //
-// Ecriture de données "brutes" dans l'image disquette
+// Ecriture de donnÔøΩes "brutes" dans l'image disquette
 //
 void DSK::WriteRawData( int Pos, unsigned char * Data, int Longueur ) {
     memcpy( &ImgDsk[ Pos ], Data, Longueur );
@@ -312,7 +312,7 @@ void DSK::WriteBloc( int bloc, unsigned char BufBloc[ SECTSIZE * 2 ] ) {
             track++;
 	
     //
-    // Ajuste le nombre de pistes si dépassement capacité
+    // Ajuste le nombre de pistes si dÔøΩpassement capacitÔøΩ
     //
     CPCEMUEnt * Entete = ( CPCEMUEnt * )ImgDsk;
     if ( track > Entete->NbTracks - 1 ) {
@@ -383,8 +383,8 @@ CPCEMUTrack * DSK::GetInfoTrack( int Track ) {
 }
 
 //
-// Remplit un "bitmap" pour savoir où il y a des fichiers sur la disquette
-// Retourne également le nombre de Ko utilisés sur la disquette
+// Remplit un "bitmap" pour savoir oÔøΩ il y a des fichiers sur la disquette
+// Retourne ÔøΩgalement le nombre de Ko utilisÔøΩs sur la disquette
 //
 int DSK::FillBitmap( void ) {
     int NbKo = 0;
@@ -408,7 +408,7 @@ int DSK::FillBitmap( void ) {
 
 
 //
-// Positionne une entrée dans le répertoire
+// Positionne une entrÔøΩe dans le rÔøΩpertoire
 //
 void DSK::SetInfoDirEntry( int NumDir, StDirEntry * Dir ) {
     int MinSect = GetMinSect();
@@ -426,7 +426,7 @@ void DSK::SetInfoDirEntry( int NumDir, StDirEntry * Dir ) {
 
 
 //
-// Vérifie l'existente d'un fichier, retourne l'indice du fichier si existe,
+// VÔøΩrifie l'existente d'un fichier, retourne l'indice du fichier si existe,
 // -1 sinon
 //
 int DSK::FileExist( char * Nom ) {
@@ -436,7 +436,7 @@ int DSK::FileExist( char * Nom ) {
 		for(int q=0;q<12;q++)
 		    Dir->Nom[q]=Dir->Nom[q]&127; // Avoid missing hidden files
 		if (  Dir->User != USER_DELETED 
-			  && ! strncmp( Nom, ( char * )Dir->Nom, 11 ) // 11 = 8+3 car le point est enlevÈ
+			  && ! strncmp( Nom, ( char * )Dir->Nom, 11 ) // 11 = 8+3 car le point est enlevÔøΩ
 			  )
 			return( i );
 	}
@@ -481,14 +481,14 @@ int DSK::FileIsIn( string FileName ) {
 int DSK::CopieFichier( unsigned char * BufFile, char * NomFic, int TailleFic, int MaxBloc, int UserNumber, bool System_file, bool Read_only ) {
     int j, l, Bloc, PosFile, NbPages = 0, PosDir, TaillePage;
     FillBitmap();
-    StDirEntry * DirLoc = GetNomDir( NomFic ); 	//Construit l'entrÈe pour mettre dans le catalogue
+    StDirEntry * DirLoc = GetNomDir( NomFic ); 	//Construit l'entrÔøΩe pour mettre dans le catalogue
     for ( PosFile = 0; PosFile < TailleFic; ) { //Pour chaque bloc du fichier
-        PosDir = RechercheDirLibre(); 		//Trouve une entrÈe libre dans le CAT
+        PosDir = RechercheDirLibre(); 		//Trouve une entrÔøΩe libre dans le CAT
         if ( PosDir != -1 ) {
-            DirLoc->User = UserNumber;			//Remplit l'entrÈe : User 0
+            DirLoc->User = UserNumber;			//Remplit l'entrÔøΩe : User 0
     	    if(System_file) DirLoc->Nom[9]|=0x80;
             if(Read_only) DirLoc->Nom[8]|=0x80;
-            DirLoc->NumPage = ( unsigned char )NbPages++;	// NumÈro de l'entrÈe dans le fichier
+            DirLoc->NumPage = ( unsigned char )NbPages++;	// NumÔøΩro de l'entrÔøΩe dans le fichier
             TaillePage = (TailleFic - PosFile + 127) >> 7 ;	// Taille de la page (on arrondit par le haut)
             if ( TaillePage > 128 )				// Si y'a plus de 16k il faut plusieurs pages
                 TaillePage = 128;
@@ -517,7 +517,7 @@ int DSK::CopieFichier( unsigned char * BufFile, char * NomFic, int TailleFic, in
 
 
 //
-// Retourne une entrée du répertoire
+// Retourne une entrÔøΩe du rÔøΩpertoire
 //
 StDirEntry * DSK::GetInfoDirEntry( int NumDir ) {
     static StDirEntry Dir;
@@ -536,7 +536,7 @@ StDirEntry * DSK::GetInfoDirEntry( int NumDir ) {
 
 
 //
-// Vérifier si DSK est "standard" (DATA ou VENDOR)
+// VÔøΩrifier si DSK est "standard" (DATA ou VENDOR)
 //
 bool DSK::CheckDsk( void ) {
     CPCEMUEnt * Infos = ( CPCEMUEnt * )ImgDsk;
@@ -882,6 +882,8 @@ bool DSK::PutFileInDsk( string Masque ,int TypeModeImport ,int loadAdress, int e
 	if ( NULL==(cFileName = (char*)malloc(16*sizeof(char))) )
 		return false;
 	
+	
+
 	cFileName = GetNomAmsdos((char *)Masque.c_str());
 	if ((  Hfile = fopen(Masque.c_str(),"rb")) == NULL ) return false;
         Lg=fread(Buff,1, 0x20000 ,Hfile);
@@ -894,6 +896,14 @@ bool DSK::PutFileInDsk( string Masque ,int TypeModeImport ,int loadAdress, int e
 		return false;
 	}
 		
+	if (TypeModeImport == MODE_ASCII) {
+		for (int i=0 ; i < 0x20000 ; i++) {
+			// last ascii char
+			if (Buff[i] > 136) {
+				Buff[i] = '?'; // replace by unknown char
+			}
+		}
+	}
         //
         // Regarde si le fichier contient une en-tete ou non
         //
@@ -901,7 +911,7 @@ bool DSK::PutFileInDsk( string Masque ,int TypeModeImport ,int loadAdress, int e
       
       	if ( ! IsAmsdos ) {
 		// Creer une en-tete amsdos par defaut
-		cout << "CrÈation automatique d'une en-tÍte pour le fichier ...\n";
+		cout << "CrÔøΩation automatique d'une en-tÔøΩte pour le fichier ...\n";
 		e = CreeEnteteAmsdos( cFileName, ( unsigned short )Lg );
 		if ( loadAdress != 0)
 		{
@@ -919,7 +929,7 @@ bool DSK::PutFileInDsk( string Masque ,int TypeModeImport ,int loadAdress, int e
         if ( isBigEndian() ) e = StAmsdosEndian(e);
 	}
 	else
-		cout << "Le fichier a dÈj‡ une en-tÍte\n";
+		cout << "Le fichier a dÔøΩjÔøΩ une en-tÔøΩte\n";
         //
         // En fonction du mode d'importation...
         //
@@ -960,7 +970,7 @@ bool DSK::PutFileInDsk( string Masque ,int TypeModeImport ,int loadAdress, int e
                	Lg += sizeof( StAmsdos );
 	}
 
-	//if (MODE_BINAIRE) ClearAmsdos(Buff); //Remplace les octets inutilisÈs par des 0 dans l'en-tÍte
+	//if (MODE_BINAIRE) ClearAmsdos(Buff); //Remplace les octets inutilisÔøΩs par des 0 dans l'en-tÔøΩte
 
         if ( CopieFichier( Buff,cFileName,Lg,256, UserNumber, System_file, Read_only) != ERR_NO_ERR )
 		ret = false;
@@ -1140,7 +1150,7 @@ std::string DSK::ReadDskDir( void ) {
 	// Trier les fichiers
 	for ( int i = 0; i < 64; i++ ) {
 		//
-		// Afficher les fichiers non effacÈs
+		// Afficher les fichiers non effacÔøΩs
 		//
 		if ( TabDir[ i ].User != USER_DELETED && ! TabDir[ i ].NumPage ) {
 			char Nom[ 13 ];
