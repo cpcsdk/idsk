@@ -22,12 +22,13 @@ int main(int argc, char **argv)
 		ModeDisaFile, ModeListBasic,
 		ModeListDams, ModeListHex,
 		ModeGetFile, ModeNewDsk, Force_Overwrite,
-		Read_only, System_file, Split_lines, ModeListAscii;
+		Read_only, System_file, Split_lines, ModeListAscii, NoOptionSet;
 
 	ModeListDsk = ModeImportFile = ModeListAscii =
 		ModeRemoveFile = ModeDisaFile =
 			ModeListBasic = ModeListDams = ModeListHex = ModeNewDsk =
-				ModeGetFile = IsDskLoc = IsDskSet = Force_Overwrite = Read_only = System_file = false;
+				ModeGetFile = IsDskLoc = IsDskSet = Force_Overwrite = Read_only = System_file =  false;
+	NoOptionSet = true;			
 
 	string DskFile, AmsdosFile;
 	vector<string> AmsdosFileList;
@@ -90,6 +91,7 @@ int main(int argc, char **argv)
 
 	if (ModeListBasic || ModeListHex || ModeListDams || ModeDisaFile || ModeListAscii)
 	{
+		NoOptionSet = false;
 		if (!MyDsk.ReadDsk(DskFile))
 		{
 			cerr << "Error reading file (" << DskFile << ")." << endl;
@@ -130,6 +132,7 @@ int main(int argc, char **argv)
 
 	if (ModeNewDsk)
 	{
+		NoOptionSet = false;
 		MyDsk.FormatDsk(9, 42);
 		if (!MyDsk.WriteDsk(DskFile))
 		{
@@ -138,23 +141,11 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (ModeListDsk)
-	{ // lire Dsk
-		if (!MyDsk.ReadDsk(DskFile))
-		{
-			cerr << "Error reading file (" << DskFile << ")." << endl;
-			exit(EXIT_FAILURE);
-		}
-		if (!MyDsk.CheckDsk())
-		{
-			cerr << "Unsupported dsk file (" << DskFile << ")." << endl;
-			exit(EXIT_FAILURE);
-		}
-		cout << MyDsk.ReadDskDir();
-	}
+	
 
 	if (ModeImportFile)
 	{ // Ajouter fichiers sur dsk
+		NoOptionSet = false;
 		if (!MyDsk.ReadDsk(DskFile))
 		{
 			cerr << "Error reading file (" << DskFile << ")." << endl;
@@ -203,6 +194,7 @@ int main(int argc, char **argv)
 
 	if (ModeRemoveFile)
 	{
+		NoOptionSet = false;
 		if (!MyDsk.ReadDsk((char *)DskFile.c_str()))
 		{
 			cerr << "Error reading file (" << DskFile << ")." << endl;
@@ -233,6 +225,7 @@ int main(int argc, char **argv)
 
 	if (ModeGetFile)
 	{
+		NoOptionSet = false;
 		if (!MyDsk.ReadDsk((char *)DskFile.c_str()))
 		{
 			cerr << "Error reading dskfile (" << DskFile << ")." << endl;
@@ -261,7 +254,21 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-
+	if (ModeListDsk || NoOptionSet)
+	{ // lire Dsk
+		if (!MyDsk.ReadDsk(DskFile))
+		{
+			cerr << "Error reading file (" << DskFile << ")." << endl;
+			exit(EXIT_FAILURE);
+		}
+		if (!MyDsk.CheckDsk())
+		{
+			cerr << "Unsupported dsk file (" << DskFile << ")." << endl;
+			exit(EXIT_FAILURE);
+		}
+		cout << MyDsk.ReadDskDir();
+	}
+	
 	cerr << "------------------------------------" << endl;
 
 	return (EXIT_SUCCESS);
@@ -278,7 +285,7 @@ void help(void)
 	cout << "Usage : " << endl;
 	cout << "\t" << PROGNAME << " <DSKfile> [OPTIONS] [files to process]" << endl;
 	cout << "OPTIONS :                              EXAMPLE" << endl;
-	cout << "-l : List disk catalog                 iDSK floppy.dsk -l" << endl;
+	cout << "-l : List disk catalog                 iDSK floppy.dsk -l (default option is no option is set)" << endl;
 	cout << "-g : export ('Get') file               iDSK floppy.dsk -g myprog.bas" << endl;
 	cout << "-r : Remove file                       iDSK floppy.dsk -r myprog.bas" << endl;
 	cout << "-n : create New dsk file               iDSK floppy2.dsk -n" << endl;
