@@ -91,7 +91,7 @@ int main(int argc, char **argv)
 
 	if (ModeListBasic || ModeListHex || ModeListDams || ModeDisaFile || ModeListAscii)
 	{
-		NoOptionSet = true;
+		NoOptionSet = false;
 		if (!MyDsk.ReadDsk(DskFile))
 		{
 			cerr << "Error reading file (" << DskFile << ")." << endl;
