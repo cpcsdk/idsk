@@ -486,8 +486,9 @@ int DSK::CopieFichier( unsigned char * BufFile, char * NomFic, int TailleFic, in
         PosDir = RechercheDirLibre(); 		//Trouve une entr�e libre dans le CAT
         if ( PosDir != -1 ) {
             DirLoc->User = UserNumber;			//Remplit l'entr�e : User 0
-    	    if(System_file) DirLoc->Nom[9]|=0x80;
-            if(Read_only) DirLoc->Nom[8]|=0x80;
+            // http://www.cpm8680.com/cpmtools/cpm.htm
+            if(System_file) DirLoc->Ext[1]|=0x80;
+            if(Read_only) DirLoc->Ext[0]|=0x80;
             DirLoc->NumPage = ( unsigned char )NbPages++;	// Num�ro de l'entr�e dans le fichier
             TaillePage = (TailleFic - PosFile + 127) >> 7 ;	// Taille de la page (on arrondit par le haut)
             if ( TaillePage > 128 )				// Si y'a plus de 16k il faut plusieurs pages
@@ -690,7 +691,8 @@ bool DSK::WriteDsk( string NomDsk ) {
         Taille = Infos->NbTracks * Infos->DataSize + sizeof( * Infos );
         if ( isBigEndian() ) FixEndianDsk( true ) ; // Fix endianness for Big endian machines (PPC)
 		
-		if ( (Copie=(fwrite(ImgDsk,1,Taille,fp))) !=Taille ) ;
+		if ( (Copie=(fwrite(ImgDsk,1,Taille,fp))) !=Taille )
+			cerr << Copie << "!=" << Taille;
 		fclose(fp);
 		// in case of the same DSK image stay in memory
         if ( isBigEndian() ) FixEndianDsk( false ) ; // unFix endianness for Big endian machines (PPC)
