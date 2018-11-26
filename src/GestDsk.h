@@ -80,15 +80,16 @@ typedef struct
 #define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop) )
 #endif
 
+// see http://www.cpcwiki.eu/index.php/Disk_structure#Directory_entries
 PACK(typedef struct
 {
-    unsigned char       User;
-    char                Nom[8];
-    char                Ext[3];
-    unsigned char       NumPage;
-    unsigned char       Unused[2];
-    unsigned char       NbPages;
-    unsigned char       Blocks[16];
+    unsigned char       User;           // 00
+    char                Nom[8];         // 01-08
+    char                Ext[3];         // 09-0B
+    unsigned char       NumPage;        // 0C
+    unsigned char       Unused[2];      // 0D-0E
+    unsigned char       NbPages;        // 0F
+    unsigned char       Blocks[16];     // 10-1F
 }) StDirEntry;
 
 #pragma pack()
