@@ -26,6 +26,9 @@ GetOpt_pp: Yet another C++ version of getopt.
 #define environ _environ
 #else
 #include <unistd.h>
+#if defined(__FreeBSD__)
+extern char **environ;
+#endif
 #endif
 
 #include "getopt_pp.h"
