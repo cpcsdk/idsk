@@ -5,7 +5,11 @@ using namespace std;
 
 #ifndef _MSC_VER
 #include <sys/param.h>
+#if defined(__FreeBSD__)
+#include <machine/endian.h>
+#else
 #include <endian.h>
+#endif
 #endif
 
 bool isBigEndian(void)
