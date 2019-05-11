@@ -1,29 +1,7 @@
-Unfortunately the license for parts of the code is unclear.
-
-Portions parts of CPC-Emu released under the following License:
----------------------------------------------------------------
-
-CPCemu is (C) 1991-2002 Marco Vieth & Rainer Loritz
-- all rights reserved - 
-
-CPCemu is Freeware, which means you can give the program to friends and
-acquaintances for *free*. Archive maintainers are allowed to include CPCemu in their
-program collections for "downloading". Shareware distributors are allowed to
-distribute CPCemu, if they only take a small fee for copying. Compared to Public Domain,
-Freeware does not mean that it is "free" and you may do anything with it.
-We still retain the copyright. 
-
-All software and documentation is provided "as is" without warranty of any kind. 
-
-Although this program is freeware, we would certainly accept any sort of support, technical or financial. 
-
+Portions parts of CPCemu, (C) 1991-2002 Marco Vieth & Rainer Loritz
 Portions parts of ManageDSK, (c) 2005-2015 Ludovic Deplanque (Demoniak)
------------------------------------------------------------------------
 
-Distributed under the terms of the MIT License for iDSK.
-
-Portions (c) ????-2019 Jérôme Le Saux (Sid), Colin Pitrat, Thomas Bernard (miniupnp), and Adrien Destugues (PulkoMandy)
------------------------------------------------------------------------------------------------------------------------
+iDSK is copyright (c) ????-2019 Jérôme Le Saux (Sid), Colin Pitrat, Thomas Bernard (miniupnp), Romain Giot (Krusty) and Adrien Destugues (PulkoMandy)
 
 Distributed under the terms of the MIT License
 
@@ -43,8 +21,3 @@ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIG
 HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-Portions (c) ????-2018 Romain Giot (Krusty)
--------------------------------------------
-
-No clear licence is given
