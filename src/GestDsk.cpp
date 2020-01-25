@@ -913,7 +913,7 @@ bool DSK::PutFileInDsk( string Masque ,int TypeModeImport ,int loadAdress, int e
       
       	if ( ! IsAmsdos ) {
 		// Creer une en-tete amsdos par defaut
-		cout << "Cr�ation automatique d'une en-t�te pour le fichier ...\n";
+		cout << "Automatically generating header for file\n";
 		e = CreeEnteteAmsdos( cFileName, ( unsigned short )Lg );
 		if ( loadAdress != 0)
 		{
@@ -931,7 +931,7 @@ bool DSK::PutFileInDsk( string Masque ,int TypeModeImport ,int loadAdress, int e
         if ( isBigEndian() ) e = StAmsdosEndian(e);
 	}
 	else
-		cout << "Le fichier a d�j� une en-t�te\n";
+		cout << "File already has an header\n";
         //
         // En fonction du mode d'importation...
         //
