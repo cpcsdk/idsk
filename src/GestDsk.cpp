@@ -875,109 +875,83 @@ bool DSK::GetFileInDsk( char* path, int Indice ){
 }
 
 
-bool DSK::PutFileInDsk( string Masque ,int TypeModeImport ,int loadAdress, int exeAdress, int UserNumber, bool System_file, bool Read_only ) {
-	static unsigned char Buff[ 0x20000 ];
+bool DSK::PutFileInDsk(string Masque, int TypeModeImport,
+	int loadAddress, int exeAddress, int UserNumber,
+	bool System_file, bool Read_only )
+{
+	static unsigned char Buff[0x20000];
 	static char *cFileName;
 	unsigned long Lg;
 	bool ret;
 	FILE* Hfile;
-	if ( NULL==(cFileName = (char*)malloc(16*sizeof(char))) )
-		return false;
-	
-	
 
-	cFileName = GetNomAmsdos((char *)Masque.c_str());
-	if ((  Hfile = fopen(Masque.c_str(),"rb")) == NULL ) return false;
-        Lg=fread(Buff,1, 0x20000 ,Hfile);
+	// Get AMSDOS-formatted name
+	cFileName = GetNomAmsdos(Masque.c_str());
+
+	// Open and read the input file
+	if ((Hfile = fopen(Masque.c_str(),"rb")) == NULL)
+		return false;
+	Lg=fread(Buff,1, 0x20000 ,Hfile);
 	fclose( Hfile );
-        bool AjouteEntete = false;
-        StAmsdos * e = ( StAmsdos * )Buff;
-        // Attention : longueur > 64Ko !
-        if ( Lg > 0x10080 ) {
-		free(cFileName);
-		return false;
-	}
-		
-	if (TypeModeImport == MODE_ASCII) {
-		for (int i=0 ; i < 0x20000 ; i++) {
-			// last ascii char
-			if (Buff[i] > 136) {
-				Buff[i] = '?'; // replace by unknown char
-			}
-		}
-	}
-        //
-        // Regarde si le fichier contient une en-tete ou non
-        //
-        bool IsAmsdos = CheckAmsdos( Buff );
-      
-      	if ( ! IsAmsdos ) {
-		// Creer une en-tete amsdos par defaut
-		cout << "Automatically generating header for file\n";
-		e = CreeEnteteAmsdos( cFileName, ( unsigned short )Lg );
-		if ( loadAdress != 0)
-		{
-			e->Adress = (unsigned short)loadAdress;
-			TypeModeImport = MODE_BINAIRE;
-		}
-		if ( exeAdress != 0 )
-		{
-			e->EntryAdress = (unsigned short)exeAdress;
-			TypeModeImport = MODE_BINAIRE;
-		}
-		// Il faut recalculer le checksum en comptant es adresses !
-		SetChecksum(e);
-        // fix the endianness of the input file
-        if ( isBigEndian() ) e = StAmsdosEndian(e);
-	}
-	else
-		cout << "File already has an header\n";
-        //
-        // En fonction du mode d'importation...
-        //
-        switch( TypeModeImport ) {
-		case MODE_ASCII :
-			//
-			// Importation en mode ASCII
-			//
-			if ( IsAmsdos ) {
-				// Supprmier en-tete si elle existe
-				memcpy( Buff, &Buff[ sizeof( StAmsdos ) ], Lg - sizeof( StAmsdos ));
-				Lg -= sizeof( StAmsdos );
+
+	// Check if file already has an header
+	bool IsAmsdos = CheckAmsdos(Buff);
+
+	// Force binary mode if a load or execution address is specified
+	if (loadAddress != 0 || exeAddress != 0)
+		TypeModeImport = MODE_BINAIRE;
+
+	switch(TypeModeImport) {
+		case MODE_ASCII:
+			// In ASCII mode, delete the header if there is one
+			if (IsAmsdos) {
+				memmove(Buff, Buff + sizeof(StAmsdos), Lg - sizeof(StAmsdos));
+				Lg -= sizeof(StAmsdos);
 			}
 		break;
-				
+
 		case MODE_BINAIRE :
-			//
-			// Importation en mode BINAIRE
-			//
-				
-			if ( ! IsAmsdos )
-				//
-				// Indique qu'il faudra ajouter une en-tete
-				//
-				AjouteEntete = true;
-		break;
-				
-	}
+			// In binary mode, add an header if there is none
+			if ( ! IsAmsdos ) {
+				// Sanity check on file size (we cast to unsigned short)
+				if ( Lg >= 0x10000 ) {
+					cerr << "Creating an header for files larger than 64K is not supported yet\n";
+					return false;
+				}
 		
-        //
-        // Si fichier ok pour etre import
-        //
-        if ( AjouteEntete ) {
-        	// Ajoute l'en-tete amsdos si necessaire
-        	
-		memmove( &Buff[ sizeof( StAmsdos ) ], Buff, Lg );
-               	memcpy( Buff, e, sizeof( StAmsdos ) );
-               	Lg += sizeof( StAmsdos );
+				// Create and fill AMSDOS header
+				cout << "Automatically generating header for file\n";
+				StAmsdos * e;
+				e = CreeEnteteAmsdos(cFileName, (unsigned short)Lg);
+				if (loadAddress != 0)
+				{
+					e->Adress = (unsigned short)loadAddress;
+				}
+				if (exeAddress != 0)
+				{
+					e->EntryAdress = (unsigned short)exeAddress;
+				}
+				// After changing addresses, recompute header checksum
+				SetChecksum(e);
+				// Fix endianness if run on big-endian machine
+				if (isBigEndian()) e = StAmsdosEndian(e);
+
+				// Insert the header before the file
+				memmove(&Buff[sizeof(StAmsdos)], Buff, Lg);
+				memcpy(Buff, e, sizeof(StAmsdos));
+				Lg += sizeof(StAmsdos);
+			}
+			else
+				cout << "File already has an header\n";
+		break;
+
 	}
 
-	//if (MODE_BINAIRE) ClearAmsdos(Buff); //Remplace les octets inutilis�s par des 0 dans l'en-t�te
-
-        if ( CopieFichier( Buff,cFileName,Lg,256, UserNumber, System_file, Read_only) != ERR_NO_ERR )
+	// Copy the file inside the DSK image.
+	if (CopieFichier(Buff, cFileName, Lg, 256, UserNumber, System_file, Read_only) != ERR_NO_ERR)
 		ret = false;
-	else 
-		ret = true;	
+	else
+		ret = true;
 
 	return ret;
 }
