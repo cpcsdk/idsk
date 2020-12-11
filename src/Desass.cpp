@@ -399,7 +399,7 @@ const char * const TabInstr[ 256 ] =
 //
 // Convertir le buffer en listing désassemblé
 //
-void Desass( unsigned char * Prg, char * Listing, int Longueur )
+void Desass( unsigned char * Prg, char * Listing, int Longueur, int Offset )
 {
     int i, Instr, Inst2 = 0, Inst3 = 0, Inst4 = 0, Ad16;
     const char * Chaine; 
@@ -499,7 +499,7 @@ void Desass( unsigned char * Prg, char * Listing, int Longueur )
                     {
                     p = strstr( Inst, "eeee" );
                     if ( p )
-                        Hex( p, Adr + Ad8, 4 );
+                        Hex( p, Adr + Ad8 + Offset, 4 );
                     else
                         Adr--;
                     }
@@ -508,7 +508,7 @@ void Desass( unsigned char * Prg, char * Listing, int Longueur )
         else
             sprintf( Inst, "%02X %02X %02X ????", Instr, Inst2, Inst3 );
 
-        Hex( &Listing[ PosD ], OldAdr, 4 );
+        Hex( &Listing[ PosD ], OldAdr + Offset, 4 );  // current address
         Listing[ PosD + 4 ] = ' ';
         PosD += 5;
         for ( i = OldAdr; i < Adr; i++ )
