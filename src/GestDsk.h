@@ -10,7 +10,7 @@ extern char Listing[ 0x280000 ];
 extern unsigned char BufFile[ 0x10000 ];
 
 
-extern int TailleFic, CurLigne;
+extern int TailleFic, CurLigne, AdresseCharg, AdresseExec;
 
 #pragma pack(1) //evite le padding des structures qui sont utilisées dans des memcpy par la suite
 
