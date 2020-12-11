@@ -9,7 +9,7 @@ using namespace std;
 //
 // Tableau des OP-Codes Z80...
 //
-const char * TabInstrCB[ 256 ] =
+const char * const TabInstrCB[ 256 ] =
     {
     "RLC B","RLC C","RLC D","RLC E",
     "RLC H","RLC L","RLC (HL)","RLC A",
@@ -78,7 +78,7 @@ const char * TabInstrCB[ 256 ] =
     };
 
 
-const char * TabInstrED[ 256 ] =
+const char * const TabInstrED[ 256 ] =
     {
     0,0,0,0,
     0,0,0,0,
@@ -147,7 +147,7 @@ const char * TabInstrED[ 256 ] =
     };
 
 
-const char * TabInstrDD[ 256 ] =
+const char * const TabInstrDD[ 256 ] =
     {
     0,0,0,0,
     0,0,0,0,
@@ -216,7 +216,7 @@ const char * TabInstrDD[ 256 ] =
     };
 
 
-const char * TabInstrDDCB[ 256 ] =
+const char * const TabInstrDDCB[ 256 ] =
     {
     0,0,0,0,0,0,"RLC (IX+nn)",0,
     0,0,0,0,0,0,"RRC (IX+nn)",0,
@@ -253,7 +253,7 @@ const char * TabInstrDDCB[ 256 ] =
     };
 
 
-const char * TabInstrFD[ 256 ] =
+const char * const TabInstrFD[ 256 ] =
     {
     0,0,0,0,0,0,0,0,
     0,"ADD IY,BC",0,0,0,0,0,0,
@@ -290,7 +290,7 @@ const char * TabInstrFD[ 256 ] =
     };
 
 
-const char * TabInstrFDCB[ 256 ] =
+const char * const TabInstrFDCB[ 256 ] =
     {
     0,0,0,0,0,0,"RLC (IY+nn)",0,
     0,0,0,0,0,0,"RRC (IY+nn)",0,
@@ -327,7 +327,7 @@ const char * TabInstrFDCB[ 256 ] =
     };
 
 
-const char * TabInstr[ 256 ] =
+const char * const TabInstr[ 256 ] =
     {
     "NOP","LD BC,nnnn","LD (BC),A","INC BC",
     "INC B","DEC B","LD B,nn","RLCA",
@@ -397,7 +397,7 @@ const char * TabInstr[ 256 ] =
 
 
 //
-// Convertir le buffer en listing d�sassembl�
+// Convertir le buffer en listing désassemblé
 //
 void Desass( unsigned char * Prg, char * Listing, int Longueur )
 {
@@ -522,7 +522,7 @@ void Desass( unsigned char * Prg, char * Listing, int Longueur )
             Listing[ PosD ] = Listing[ PosD + 1 ] = Listing[ PosD + 2 ] = ' ';
             PosD += 3;
             }
-        char * p = Inst;
+        const char * p = Inst;
         while( * p )
             Listing[ PosD++ ] = * p++;
 
