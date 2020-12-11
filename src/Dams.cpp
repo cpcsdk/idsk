@@ -10,7 +10,7 @@ using namespace std;
 //
 void Dams( unsigned char * BufFile, int TailleFic, char * Listing )
 {
-    const char * MotCleDams[ 0x80 ] = 
+    const char * MotCleDams[ 0x80 ] =
         {
         "LD","INC","DEC","ADD","ADC","SUB","SBC","AND","XOR","OR","CP",
         "PUSH","POP","BIT","RES","SET","RLC","RRC","RL","RR","SLA","SRA",
@@ -72,7 +72,7 @@ void Dams( unsigned char * BufFile, int TailleFic, char * Listing )
                             {
                             if ( c == 0xFF )
                                 Listing[ PosDest++ ] = '\t';
-                            else          
+                            else
                                 Listing[ PosDest++ ] = c;
 
                             c = BufFile[ PosFile++ ];
@@ -87,7 +87,7 @@ void Dams( unsigned char * BufFile, int TailleFic, char * Listing )
                         {
                         if ( c == 0xFF )
                             Listing[ PosDest++ ] = '\t';
-                        else          
+                        else
                                 Listing[ PosDest++ ] = c;
 
                         c = BufFile[ PosFile++ ];
@@ -143,7 +143,7 @@ void Dams( unsigned char * BufFile, int TailleFic, char * Listing )
                                     Listing[ PosDest++ ] = '\t';
                                     Listing[ PosDest++ ] = ';';
                                     }
-                                else          
+                                else
                                     Listing[ PosDest++ ] = c;
 
                                 c = BufFile[ PosFile++ ];
@@ -161,7 +161,7 @@ void Dams( unsigned char * BufFile, int TailleFic, char * Listing )
                                 Listing[ PosDest++ ] = '\t';
                                 Listing[ PosDest++ ] = ';';
                                 }
-                            else          
+                            else
                                 Listing[ PosDest++ ] = c;
 
                             c = BufFile[ PosFile++ ];
