@@ -2,7 +2,7 @@
 #define DESASS_H
 
 
-void Desass( unsigned char * Prg, char * Desass, int Longueur );
+void Desass( unsigned char * Prg, char * Desass, int Longueur, int Offset );
 
 
 #endif

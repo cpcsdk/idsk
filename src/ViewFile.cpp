@@ -20,7 +20,7 @@ string ViewDams()
 string ViewDesass()
 {
 	cerr << "Taille du fichier : " << TailleFic << endl;
-	Desass(BufFile, Listing, TailleFic);
+	Desass(BufFile, Listing, TailleFic, AdresseCharg);
 	return Listing;
 	//cout << Listing << endl;
 }
