@@ -5,6 +5,8 @@
 #include  "Outils.h"
 using namespace std;
 
+// Vecteurs du Firmware CPC
+#include "firmware.h"
 
 //
 // Tableau des OP-Codes Z80...
@@ -395,6 +397,14 @@ const char * const TabInstr[ 256 ] =
     "CALL M,nnnn",0,"CP nn","RST 38"
     };
 
+const char * GetFirmWareVectorName(unsigned short address)
+{
+    for (int i = 0; FirmWareVectors[i].label; i++) {
+        if (FirmWareVectors[i].address == address)
+            return FirmWareVectors[i].label;
+    }
+    return NULL;
+}
 
 //
 // Convertir le buffer en listing désassemblé
@@ -402,7 +412,7 @@ const char * const TabInstr[ 256 ] =
 void Desass( unsigned char * Prg, char * Listing, int Longueur, int Offset )
 {
     int i, Instr, Inst2 = 0, Inst3 = 0, Inst4 = 0, Ad16;
-    const char * Chaine; 
+    const char * Chaine;
     char *p;
     char Inst[ 1024 ];
 
@@ -484,6 +494,17 @@ void Desass( unsigned char * Prg, char * Listing, int Longueur, int Offset )
                 {
                 Hex( p, Ad16, 4 );
                 Adr++;
+                const char * label = GetFirmWareVectorName( Ad16 );
+                if (label && 0 == memcmp( Inst, "CALL", 4))
+                    {
+                    p[4] = ' ';
+                    p[5] = ' ';
+                    p[6] = ' ';
+                    p[7] = ' ';
+                    p[8] = ';';
+                    p[9] = ' ';
+                    strcpy(p + 10, label);
+                    }
                 }
             else
                 {
