@@ -19,7 +19,7 @@ using namespace std;
 
 char Listing[ 0x280000 ];
 unsigned char BufFile[ 0x10000 ];
-int TailleFic, CurLigne;
+int TailleFic, CurLigne, AdresseCharg, AdresseExec;
 
 
 //
@@ -989,6 +989,8 @@ bool DSK::OnViewFic(int nItem) {
 			if ( FirstBlock ) {
 				if ( CheckAmsdos( p ) )  {
 					TailleFic = p[ 0x18 +1 ] *256 + p[ 0x18 ];
+					AdresseCharg = p[ 0x15 +1 ] *256 + p[ 0x15 ];
+					AdresseExec = p[ 0x1a +1 ] *256 + p[ 0x1a ];
 					TailleBloc -= sizeof( StAmsdos );
 					memcpy( p  , &p[ 0x80 ]  , TailleBloc  );
 				}
