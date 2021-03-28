@@ -895,7 +895,7 @@ bool DSK::PutFileInDsk(string Masque, int TypeModeImport,
 	fclose( Hfile );
 
 	// Check if file already has an header
-	bool IsAmsdos = CheckAmsdos(Buff);
+	bool IsAmsdos = (TypeModeImport != MODE_RAW) &&  CheckAmsdos(Buff);
 
 	// Force binary mode if a load or execution address is specified
 	if (loadAddress != 0 || exeAddress != 0)
@@ -944,6 +944,8 @@ bool DSK::PutFileInDsk(string Masque, int TypeModeImport,
 			else
 				cout << "File already has an header\n";
 		break;
+		case MODE_RAW :
+			cout << "Using raw mode, no header\n";
 
 	}
 

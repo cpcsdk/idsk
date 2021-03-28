@@ -296,7 +296,7 @@ void help(void)
 	cout << "-d : list a Dams file                  iDSK floppy.dsk -d myprog.dms" << endl;
 	cout << "-h : list a binary file as Hexadecimal iDSK floppy.dsk -h myprog.bin" << endl;
 	cout << "-i : Import file                       iDSK floppy.dsk -i myprog.bas" << endl
-		 << " -t : fileType (0=ASCII/1=BINARY)           ... -t 1" << endl;
+		 << " -t : fileType (0=ASCII/1=BINARY/2=raw)     ... -t 1" << endl;
 	cout << " -e : hex Execute address of file           ... -e C000 -t 1" << endl;
 	cout << " -c : hex loading address of file           ... -e C000 -c 4000 -t 1" << endl;
 	cout << " -f : Force overwriting if file exists      ... -f" << endl
