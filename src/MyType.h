@@ -14,6 +14,7 @@ typedef    unsigned long        DWORD;  /* unsigned 32-bit type */
 #define FALSE 0
 #define MODE_ASCII 0
 #define MODE_BINAIRE 1
+#define MODE_RAW 2
 
 
 #endif /*MYTYPE_H_*/
