@@ -5,7 +5,7 @@ using namespace std;
 
 #ifndef _MSC_VER
 #include <sys/param.h>
-#if defined(__FreeBSD__) || defined(__APPLE__)
+#if defined(__FreeBSD__) || defined(__APPLE__) || defined(__MORPHOS__)
 #include <machine/endian.h>
 #else
 #include <endian.h>
