@@ -17,7 +17,7 @@ bool isBigEndian(void)
 #ifdef BYTE_ORDER
     	return BYTE_ORDER == BIG_ENDIAN;
 #elif defined _MSC_VER
-	return true; // It doesn't run on anything except x86, right?
+	return false; // Modern VC++ only runs on x86, x64 and ARM, doesn't require big/little endian conversion
 #else
     return __BYTE_ORDER == __BIG_ENDIAN;
 #endif
