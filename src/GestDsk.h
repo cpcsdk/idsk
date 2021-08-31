@@ -127,7 +127,14 @@ class DSK
 	void FormatTrack( CPCEMUEnt * Infos, int t, int MinSect, int NbSect );
 	
 public:
-	DSK(){}
+	DSK()
+	{
+		for (int i=0; i< 0x80000; i++)
+			ImgDsk[i]=0;
+		for (int j=0; j< 256 ; j++ )
+			Bitmap[j]=0;
+	}
+	
 	DSK(const DSK& d)
 	{
 		for (int i=0; i< 0x80000; i++)
