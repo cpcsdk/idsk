@@ -20,15 +20,10 @@ GetOpt_pp: Yet another C++ version of getopt.
 
 #if __APPLE__
 #include <crt_externs.h>
-#define environ (*_NSGetEnviron())
 #elif _WIN32
 #include <Stdio.h>
-#define environ _environ
 #else
 #include <unistd.h>
-#if defined(__FreeBSD__)
-extern char **environ;
-#endif
 #endif
 
 #include "getopt_pp.h"
@@ -149,41 +144,6 @@ GETOPT_INLINE void GetOpt_pp::_parse(const std::vector<std::string>& args)
     _last = _Option::OK;    // TODO: IMPROVE!!
 }
 
-GETOPT_INLINE void GetOpt_pp::_parse_env()
-{
-    // this will be optimized in version 3
-    std::string var_name;
-    std::string var_value;
-    size_t var = 0;
-    std::string::size_type pos;
-    OptionData* data;
-
-    while (environ[var] != NULL)
-    {
-        var_name = environ[var];
-        pos = var_name.find('=');
-
-        if (pos != std::string::npos)
-        {
-            var_value = var_name.substr(pos + 1);
-            var_name = var_name.substr(0, pos);
-
-            if (_longOps.find(var_name) == _longOps.end())
-            {
-                data = &_longOps[var_name];
-                data->token = _add_token(var_name, Token::LongOption);
-                data->flags = OptionData::Envir;
-                _add_token(var_value, Token::OptionArgument);
-            }
-        }
-        else
-            (data = &_longOps[var_name])->flags = OptionData::Envir;
-
-        var++;
-    }
-}
-
-
 GETOPT_INLINE void GetOpt_pp::_argc_argv_to_vector(int argc, const char* const* const argv, std::vector<std::string>& args)
 {
     for (int i = 0; i < argc; i++)
@@ -218,10 +178,9 @@ GETOPT_INLINE GetOpt_pp::GetOpt_pp(int argc, const char* const* const argv, _Env
     std::vector<std::string> args;
     _argc_argv_to_vector(argc, argv, args);
     _parse(args);
-    _parse_env();
 }
 
-GETOPT_INLINE GetOpt_pp& GetOpt_pp::operator >> (const _Option& opt) throw(GetOptEx)
+GETOPT_INLINE GetOpt_pp& GetOpt_pp::operator >> (const _Option& opt)
 {
     if (_last != _Option::ParsingError)
     {
