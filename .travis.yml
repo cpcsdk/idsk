@@ -1,8 +1,0 @@
-language: cpp
-addons:
-    apt:
-        packages:
-            - cmake
-script:
-    - cmake . && make
-    - cd test_travis/ && ./test.sh
