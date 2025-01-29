@@ -17,7 +17,7 @@ Before compiling iDSK, ensure you have the following installed:
 sudo apt update && sudo apt install -y cmake make g++ git
 
 # Clone the repository
-git clone https://github.com/RetroHoarder/idsk.git
+git clone https://github.com/cpcsdk/idsk.git
 cd idsk
 
 # Create a build directory
@@ -39,7 +39,7 @@ cmake --build .
 
 brew install cmake make 
 
-git clone https://github.com/RetroHoarder/idsk.git
+git clone https://github.com/cpcsdk/idsk.git
 cd idsk
 
 # Create a build directory
