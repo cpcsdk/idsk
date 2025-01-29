@@ -6,3 +6,4 @@ Makefile
 *.swp
 *.dsk
 .vscode/
+build/
